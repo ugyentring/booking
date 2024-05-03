@@ -5,11 +5,30 @@ import { PiHamburger } from "react-icons/pi";
 import { MdOutlineEmojiNature } from "react-icons/md";
 import { CiCalendarDate } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
-
+import { DateRange } from "react-date-range";
+import { format } from "date-fns";
 
 import "./header.css";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { useState } from "react";
 
 const Header = () => {
+  const [openDate, setOpenDate] = useState(false);
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  const [openOptions, setOpenOptions] = useState(false);
+  const [options, setOptions] = useState({
+    adult: 1,
+    children: 0,
+    table: 1,
+  });
+
   return (
     <div className="header">
       <div className="headerContainer">
@@ -58,12 +77,55 @@ const Header = () => {
 
           <div className="headerSearchItem">
             <CiCalendarDate className="headerIcon" />
-            <span className="headerSearchText">date</span>
+            <span
+              onClick={() => setOpenDate(!openDate)}
+              className="headerSearchText"
+            >{`${format(date[0].startDate, "dd/MM//yyyy")} to ${format(
+              date[0].endDate,
+              "dd/MM//yyyy"
+            )}`}</span>
+            {openDate && (
+              <DateRange
+                editableDateInputs={true}
+                onChange={(item) => setDate([item.selection])}
+                moveRangeOnFirstSelection={false}
+                ranges={date}
+                className="date"
+              />
+            )}
           </div>
 
           <div className="headerSearchItem">
             <IoPersonOutline className="headerIcon" />
-            <span className="headerSearchText">2 adults, 2 children</span>
+            <span className="headerSearchText">{`${options.adult} adult . ${options.children} children . ${options.table} table`}</span>
+            <div className="options">
+              <div className="optionItem">
+                <span className="optionText">Adult</span>
+                <div className="optionCounter">
+                  <button className="optionCounterButton">-</button>
+                  <span className="optionCounterNumber">1</span>
+                  <button className="optionCounterButton">+</button>
+                </div>
+              </div>
+
+              <div className="optionItem">
+                <span className="optionText">Children</span>
+                <div className="optionCounter">
+                  <button className="optionCounterButton">-</button>
+                  <span className="optionCounterNumber">0</span>
+                  <button className="optionCounterButton">+</button>
+                </div>
+              </div>
+
+              <div className="optionItem">
+                <span className="optionText">Table</span>
+                <div className="optionCounter">
+                  <button className="optionCounterButton">-</button>
+                  <span className="optionCounterNumber">1</span>
+                  <button className="optionCounterButton">+</button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="headerSearchItem">
