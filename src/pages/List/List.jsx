@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../../components/Navbar/Navbar";
+import Header from "../../components/Header/Header";
 
 const List = () => {
   return (
     <div>
-      <h1>This is list page</h1>
+      <Navbar />
+      <Header />
     </div>
-  )
-}
+  );
+};
 
-export default List
+export default List;
